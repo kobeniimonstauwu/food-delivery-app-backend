@@ -1,0 +1,5 @@
+# env contains the url that are private
+.env
+# Dist can be generated using commands, as well as node_modules to avoid storage issues
+dist/
+node_modules/
