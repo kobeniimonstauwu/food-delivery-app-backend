@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
   country:{
     type: String,
   }
+  // Profile picture
 })
 
 // Creation of user model

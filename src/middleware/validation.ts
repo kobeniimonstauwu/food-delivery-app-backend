@@ -27,3 +27,18 @@ export const validateMyUserRequest = [
   // it will read any of the requests that have the validation set, and returns an error and status if there are validation errors 
   handleValidationErrors
 ];
+
+export const validateMyRestaurantRequest = [
+  // Since we're dealing with form data, the form data is not considered as string so the validation will go through and not create a restaurant
+  body("restaurantName").notEmpty().withMessage("Restaurant Name must be a string"),
+  body("city").notEmpty().withMessage("City must be a string"),
+  body("country").notEmpty().withMessage("Country must be a string"),
+  body("deliveryPrice").isFloat({ min: 0 }).withMessage("Delivery Price must be a positive number"),
+  body("estimatedDeliveryTime").isInt({ min: 0 }).withMessage("Estimated Delivery Time must be a positive integer"),
+  body("cuisines").isArray().withMessage("Cuisines must be an array").not().isEmpty().withMessage("Cuisines array cannot be empty"),
+  body("menuItems").isArray().withMessage("Menu items must be an array"),
+  body("menuItems.*.name").notEmpty().withMessage("Menu Item name must be a string"),
+  body("menuItems.*.price").isFloat({ min: 0 }).withMessage("Menu Item price must be a number"),
+  // Image is already handled by multer
+  handleValidationErrors
+]
