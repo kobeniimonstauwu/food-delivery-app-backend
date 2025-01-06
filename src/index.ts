@@ -8,6 +8,7 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import myUserRoute from "./routes/myUserRoute";
 import myRestaurantRoute from "./routes/myRestaurantRoute";
+import restaurantRoute from "./routes/RestaurantRoute";
 import { v2 as cloudinary } from 'cloudinary';
 // v2 is the original name since it's the second version, but cloudinary is more descriptive  
 
@@ -48,6 +49,8 @@ app.get("/health", async(req: Request, res:Response) =>{
 app.use("/api/my/user", myUserRoute)
 
 app.use("/api/my/restaurant", myRestaurantRoute)
+
+app.use("/api/restaurant", restaurantRoute)
 
 // Done endpoint
 
