@@ -43,6 +43,7 @@ const createMyRestaurant = async(req: Request, res: Response): Promise<any> => {
     // Image url returned from cloudinary
     restaurant.imageUrl = imageUrl
     // This is the authenticated userId based on the token and putting the data here so that every user only can create 1 restaurant
+    // The ObjectId is only used for different collections used in another collection
     restaurant.user = new mongoose.Types.ObjectId(req.userId)
     // Gets the current date once it's submitted
     restaurant.lastUpdated = new Date()

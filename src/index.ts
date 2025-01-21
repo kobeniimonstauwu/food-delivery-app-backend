@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import myUserRoute from "./routes/myUserRoute";
 import myRestaurantRoute from "./routes/myRestaurantRoute";
 import restaurantRoute from "./routes/RestaurantRoute";
+import orderRoute from "./routes/OrderRoute"
 import { v2 as cloudinary } from 'cloudinary';
 // v2 is the original name since it's the second version, but cloudinary is more descriptive  
 
@@ -28,9 +29,13 @@ cloudinary.config({
 
 const app = express();
 
-app.use(express.json()) // Middleware (converts body of request in api to json)
+
 app.use(cors()); //initialize cors
 
+// this doesn't need to be converted to json, as stripe will do the process using the raw data that's passed 
+app.use("/api/order/checkout/webhook", express.raw({type: "*/*"}))
+
+app.use(express.json()) // Middleware (converts body of request in api to json)
 // Extra confirmation if the server is running 
 app.get("/health", async(req: Request, res:Response) =>{
   res.json({ message: "Health Ok"});
@@ -51,6 +56,8 @@ app.use("/api/my/user", myUserRoute)
 app.use("/api/my/restaurant", myRestaurantRoute)
 
 app.use("/api/restaurant", restaurantRoute)
+
+app.use("/api/order", orderRoute)
 
 // Done endpoint
 

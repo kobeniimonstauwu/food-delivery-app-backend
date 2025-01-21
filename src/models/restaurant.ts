@@ -1,7 +1,11 @@
-import mongoose from 'mongoose'
+import mongoose, { InferSchemaType } from 'mongoose'
 
 // Ids will generate in this separate schema which can then be used for dropdowns in ordering food
 const menuItemsSchema = new mongoose.Schema({
+  // Although this automatically generates an objectId, we need to explicitly create it here for the type in the parameter for the stripe payment page
+  // It needs to be required and generated since it'll be used for the stripe payment page and will be relying on that as a parameter (always)
+  // This modified id can be used as a type for stripe payment, as well as the default allowing us to not to expect the actual id value in the controller
+  _id: { type: mongoose.Schema.Types.ObjectId, required: true, default: () => new mongoose.Types.ObjectId()}, 
   name: {
     type: String,
     required: true,
@@ -11,6 +15,8 @@ const menuItemsSchema = new mongoose.Schema({
     required: true,
   }
 })
+
+export type MenuItemType = InferSchemaType<typeof menuItemsSchema>
 
 const restaurantSchema = new mongoose.Schema({
   // takes the _id from User database

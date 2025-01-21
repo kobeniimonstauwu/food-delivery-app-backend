@@ -3,6 +3,11 @@ import { param } from 'express-validator'
 import RestaurantController from '../controllers/RestaurantController'
 
 const router = express.Router()
+
+router.get("/:restaurantId", param("restaurantId").isString().trim().notEmpty().withMessage("RestaurantId parameter must be a valid string"),
+RestaurantController.getRestaurant
+)
+
 // Trim is used to get rid of whitespaces in the search input
 router.get("/search/:city", param("city").isString().trim().notEmpty().withMessage("City parameter must be a valid string"), RestaurantController.searchRestaurant)
 
