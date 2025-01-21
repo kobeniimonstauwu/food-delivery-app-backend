@@ -56,7 +56,7 @@ const stripeWebhookHandler = async(req: Request, res: Response): Promise<any> =>
   order.totalAmount = event.data.object.amount_total
   order.status = "paid"
 
-  await order.save()
+  await order.updateOne()
 
 
  }
