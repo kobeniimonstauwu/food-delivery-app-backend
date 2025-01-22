@@ -57,11 +57,12 @@ const stripeWebhookHandler = async(req: Request, res: Response): Promise<any> =>
   order.status = "paid"
 
   await order.save()
-
+  console.log(order)
 
  }
 
  res.status(200).send()
+ 
 }
 
 const createCheckoutSession = async(req: Request, res: Response): Promise<any> => {
