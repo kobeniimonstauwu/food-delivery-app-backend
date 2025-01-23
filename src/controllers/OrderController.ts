@@ -32,17 +32,29 @@ type CheckoutSessionRequest = {
   restaurantId: string
 }
 
+const getMyOrders = async(req: Request, res: Response): Promise<any> =>{
+  try{
+    const orders = await Order.find({ user: req.userId }).populate("restaurant").populate("user")
+
+    res.json(orders)
+  }
+  catch(error){
+    console.log(error)
+    res.status(500).json({ message : "Something went wrong"})
+  }
+}
+
 const stripeWebhookHandler = async(req: Request, res: Response): Promise<any> =>{
   let event
   // Stripe will construct an event once it knows that the request is coming from stripe through the secret
   try{
   const sig = req.headers["stripe-signature"]
   event = STRIPE.webhooks.constructEvent(req.body, sig as string, STRIPE_ENDPOINT_SECRET) 
- }
- catch(error:any){
-  console.log(error)
-  return res.status(400).send(`Webhook error: ${error.message}`)
- }
+  }
+  catch(error:any){
+    console.log(error)
+    return res.status(400).send(`Webhook error: ${error.message}`)
+  }
 
 // the 'return' above is a good keyword since it stops at that line to avoid typescript errors or any errors for having undefined variables
  if(event.type === "checkout.session.completed"){
@@ -57,13 +69,15 @@ const stripeWebhookHandler = async(req: Request, res: Response): Promise<any> =>
   order.status = "paid"
 
   await order.save()
-  console.log(order)
 
  }
-
+ 
  res.status(200).send()
  
 }
+
+
+
 
 const createCheckoutSession = async(req: Request, res: Response): Promise<any> => {
   try{
@@ -183,5 +197,6 @@ const createSession = async(lineItems: Stripe.Checkout.SessionCreateParams.LineI
 
 export default {
   createCheckoutSession,
-  stripeWebhookHandler
+  stripeWebhookHandler,
+  getMyOrders
 }
