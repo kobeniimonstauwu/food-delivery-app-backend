@@ -28,6 +28,7 @@ type CheckoutSessionRequest = {
     addressLine1: string
     // No country because we can get that info from stripe
     city: string
+    country: string
   }
   restaurantId: string
 }

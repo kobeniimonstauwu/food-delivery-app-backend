@@ -20,6 +20,10 @@ router.post("/", upload.single("imageFile"), validateMyRestaurantRequest, jwtChe
 
 router.put("/", upload.single("imageFile"), validateMyRestaurantRequest, jwtCheck, jwtParse, MyRestaurantController.updateMyRestaurant)
 
+router.get("/order", jwtCheck, jwtParse, MyRestaurantController.getMyRestaurantOrders)
+
+router.patch("/order/:orderId/status", jwtCheck, jwtParse, MyRestaurantController.updateOrderStatus)
+
 router.get("/", jwtCheck, jwtParse, MyRestaurantController.getMyRestaurant)
 
 export default router;
